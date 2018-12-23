@@ -40,6 +40,15 @@ public class Stack extends javax.swing.JFrame {
         //                    +lname[TOP] + "  OK."+"\n"
         //                   +address[TOP] + "  OK."+"\n");
     }
+    public void POP() {
+        if (TOP == -1) {
+            System.out.println("UNDERFLOW");
+        } else {
+            ITEM = STACK[TOP];
+            TOP--;
+        }
+        System.out.println("Pop Data: " + ITEM);
+    }
     public void showDatainStack() {
         //System.out.println();
         //System.out.print("Stack:");
@@ -52,6 +61,7 @@ public class Stack extends javax.swing.JFrame {
                     "  LASTNAME : "+lname[i]+  "             นำเข้าข้อมูลสำเร็จ"+"\n"+
                     "   ADDRESS : "+address[i]+"          นำเข้าข้อมูลสำเร็จ"+"\n"+
                     "----------------------------------------------------------");
+            
         }
     }
     /**
