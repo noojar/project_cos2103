@@ -63,6 +63,7 @@ public class Array extends javax.swing.JFrame {
         while (!id[LOC].equals(ITEM)) {
             LOC++;
         }
+        
         if (LOC == N) {
             LOC = -1;
             //System.out.println("ไม่พบ");
