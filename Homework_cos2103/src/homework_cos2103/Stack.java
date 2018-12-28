@@ -14,71 +14,91 @@ import javax.swing.JOptionPane;
  */
 public class Stack extends javax.swing.JFrame {
 
-    final int size = 2;
+    final int size = 10;
     int TOP = -1;
-    int MAXSTK = size -1;
+    int MAXSTK = size - 1;
     String ITEM_ID;
     String ITEM_FNAME;
     String ITEM_LNAME;
     String ITEM_ADDRESS;
+    //---------push--------------
     String id[] = new String[size];
     String fname[] = new String[size];
     String lname[] = new String[size];
     String address[] = new String[size];
-   PlaceHolder holder;
-    public void PUSH(String data,String data2,String data3,String data4) {
+    //---------pop----------------
+    String id_p[] = new String[size];
+    String fname_p[] = new String[size];
+    String lname_p[] = new String[size];
+    String address_p[] = new String[size];
+
+    PlaceHolder holder;
+
+    public void PUSH(String data, String data2, String data3, String data4) {
         if (TOP == MAXSTK) {
             //System.out.println("STACK OVERFLOW");
-            JOptionPane.showMessageDialog(null,"Stack Overflow","Inane warning",
+            JOptionPane.showMessageDialog(null, "Stack Overflow", "Inane warning",
                     JOptionPane.WARNING_MESSAGE);
         } else {
             TOP++;
             id[TOP] = ITEM_ID;
-        fname[TOP] = ITEM_FNAME;
-        lname[TOP] = ITEM_LNAME;
-        address[TOP] = ITEM_ADDRESS;
-        }
-        
+            fname[TOP] = ITEM_FNAME;
+            lname[TOP] = ITEM_LNAME;
+            address[TOP] = ITEM_ADDRESS;
 
-        //System.out.println("PUSH :" + id[TOP] + "  OK."+"\n"
-        //                    +fname[TOP] + "  OK."+"\n"
-        //                    +lname[TOP] + "  OK."+"\n"
-        //                   +address[TOP] + "  OK."+"\n");
+        }
+
     }
+
     public void POP() {
         if (TOP == -1) {
-            System.out.println("UNDERFLOW");
+            jTextArea2.setText("UNDERFLOW");
         } else {
-            //ITEM = STACK[TOP];
+            //System.out.print(id[TOP]);
+            id_p[TOP] = id[TOP];
+            //System.out.print(id_p[TOP]);
+            fname_p[TOP] = fname[TOP];
+            lname_p[TOP] = lname[TOP];
+            address_p[TOP] = address[TOP];
+            //jTextArea2.setText("");
+
+            jTextArea2.setText(jTextArea2.getText() + "สำเร็จ " + "\n"
+                    + " ID        : " + id_p[TOP] + "\n"
+                    + " FIRSTNAME : " + fname_p[TOP] + "\n"
+                    + " LASTNAME  : " + lname_p[TOP] + "\n"
+                    + " ADDRESS   : " + address_p[TOP] + "\n"
+                    + "----------------------------------------------------------" + "\n");
             TOP--;
+
         }
-        //System.out.println("Pop Data: " + ITEM);
     }
+
     public void showDatainStack() {
         //System.out.println();
         //System.out.print("Stack:");
         jTextArea1.setText("");
         for (int i = TOP; i >= 0; i--) {
             //System.out.print(STACK[i] + ",");
-            jTextArea1.setText(jTextArea1.getText() +"นำข้อมูลเข้า STACK" + "\n" + 
-                    "                   ID : "+id[i]+"             นำเข้าข้อมูลสำเร็จ"+"\n"+
-                    " FIRSTNAME : "+fname[i]+  "             นำเข้าข้อมูลสำเร็จ"+"\n"+
-                    "  LASTNAME : "+lname[i]+  "             นำเข้าข้อมูลสำเร็จ"+"\n"+
-                    "   ADDRESS : "+address[i]+"          นำเข้าข้อมูลสำเร็จ"+"\n"+
-                    "----------------------------------------------------------");
-            
+            jTextArea1.setText(jTextArea1.getText() + "นำข้อมูลเข้า STACK สำเร็จ " + "\n"
+                    + " ID        : " + id[i] + "\n"
+                    + " FIRSTNAME : " + fname[i] + "\n"
+                    + " LASTNAME  : " + lname[i] + "\n"
+                    + " ADDRESS   : " + address[i] + "\n"
+                    + "----------------------------------------------------------" + "\n");
+
         }
     }
+
     /**
      * Creates new form Stack
      */
     public Stack() {
         initComponents();
-        this.holder = new PlaceHolder(jTextField5, "Insert Item pop");
-         this.holder = new PlaceHolder(jTextField6, "Insert ID");
-         this.holder = new PlaceHolder(jTextField7, "Insert Name");
-         this.holder = new PlaceHolder(jTextField8, "Insert LastName");
-         this.holder = new PlaceHolder(jTextField9, "Insert Address");
+        //this.holder = new PlaceHolder(jTextField5, "Insert Item pop");
+        this.holder = new PlaceHolder(jTextField6, "Insert ID");
+        this.holder = new PlaceHolder(jTextField7, "Insert Name");
+        this.holder = new PlaceHolder(jTextField8, "Insert LastName");
+        this.holder = new PlaceHolder(jTextField9, "Insert Address");
     }
 
     /**
@@ -98,7 +118,6 @@ public class Stack extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         jButton3 = new javax.swing.JButton();
-        jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
@@ -145,6 +164,11 @@ public class Stack extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTextArea2);
 
         jButton3.setText("Reverse");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("ID :");
 
@@ -159,84 +183,70 @@ public class Stack extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 46, Short.MAX_VALUE)
+                    .addComponent(jButton7)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(86, 86, 86)
-                                .addComponent(jButton2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(jButton3)))
-                        .addGap(54, 54, 54))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(49, 49, 49)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
+                                    .addComponent(jLabel3)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(24, 24, 24)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel1)))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(33, 33, 33)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextField6)
-                                            .addComponent(jTextField7)
-                                            .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
-                                            .addComponent(jTextField9)))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton7)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2))
-                .addGap(29, 29, 29))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3))))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1))
-                                .addGap(26, 26, 26)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                        .addComponent(jButton1)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2))
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3))
-                        .addGap(94, 94, 94)
-                        .addComponent(jButton7))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                        .addComponent(jButton3))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addComponent(jButton7)
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
@@ -246,29 +256,25 @@ public class Stack extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ITEM_ID = jTextField6.getText();
         ITEM_FNAME = jTextField7.getText();
-        ITEM_LNAME= jTextField8.getText();
+        ITEM_LNAME = jTextField8.getText();
         ITEM_ADDRESS = jTextField9.getText();
-        PUSH(ITEM_ID,ITEM_FNAME,ITEM_LNAME,ITEM_ADDRESS );
+        PUSH(ITEM_ID, ITEM_FNAME, ITEM_LNAME, ITEM_ADDRESS);
         clearT();
         showDatainStack();
         //PUSH(ITEM_FNAME );
         //PUSH(ITEM_LNAME);
         //PUSH(ITEM_ADDRESS);
-        
-        
-        
-        
 
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-            if(TOP==-1){
-          JOptionPane.showMessageDialog(null,"Stack Emtpy","Inane warning",
-                    JOptionPane.WARNING_MESSAGE);
-            }else{
-                --TOP;
-            }
+        POP();
+        clearT();
+        
+
+        //showDatainStack_push();
+        //clearT();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -276,48 +282,41 @@ public class Stack extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    jTextArea2.setText("");
+        for (int i = 0; i >= TOP; i++) {
+            //System.out.print(STACK[i] + ",");
+            jTextArea2.setText(jTextArea2.getText() + "นำข้อมูลเข้า STACK สำเร็จ " + "\n"
+                    + " ID        : " + id_p[i] + "\n"
+                    + " FIRSTNAME : " + fname_p[i] + "\n"
+                    + " LASTNAME  : " + lname_p[i] + "\n"
+                    + " ADDRESS   : " + address_p[i] + "\n"
+                    + "----------------------------------------------------------" + "\n");
+
+        }
+
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Stack.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Stack.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Stack.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Stack.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+                /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Stack().setVisible(true);
-                
+
             }
         });
     }
-    
-    private void clearT(){
+
+    private void clearT() {
         jTextField6.setText("");
         jTextField7.setText("");
         jTextField8.setText("");
         jTextField9.setText("");
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -333,7 +332,6 @@ public class Stack extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;

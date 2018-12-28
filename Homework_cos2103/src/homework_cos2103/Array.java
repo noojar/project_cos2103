@@ -63,7 +63,7 @@ public class Array extends javax.swing.JFrame {
         while (!id[LOC].equals(ITEM)) {
             LOC++;
         }
-        
+
         if (LOC == N) {
             LOC = -1;
             //System.out.println("ไม่พบ");
@@ -73,7 +73,8 @@ public class Array extends javax.swing.JFrame {
         return LOC;
 
     }
-     /* public int Search1(String item) {
+
+    /* public int Search1(String item) {
         String ITEM = item;
 
         id[N] = ITEM;
@@ -91,8 +92,7 @@ public class Array extends javax.swing.JFrame {
 
     }
     
-    */
-    
+     */
 
     public Array() {
         initComponents();
@@ -401,7 +401,7 @@ public class Array extends javax.swing.JFrame {
                 jButton7ActionPerformed(evt);
             }
         });
-        jPanel5.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, -1, -1));
+        jPanel5.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -411,7 +411,7 @@ public class Array extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
         );
 
         pack();
@@ -420,23 +420,23 @@ public class Array extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String i1 = jTextField1.getText();
-         String i2 = jTextField2.getText();
-          String i3 = jTextField3.getText();
-           String i4 = jTextField4.getText();
-        if(i1.isEmpty()||i4.isEmpty()||i3.isEmpty()||i4.isEmpty()) {
-        JOptionPane.showMessageDialog(null,"Please Insert Data","Inane warning",
+        String i2 = jTextField2.getText();
+        String i3 = jTextField3.getText();
+        String i4 = jTextField4.getText();
+        if (i1.isEmpty() || i4.isEmpty() || i3.isEmpty() || i4.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please Insert Data", "Inane warning",
                     JOptionPane.WARNING_MESSAGE);
-        }else if(!isNumeric(i4)){
-            JOptionPane.showMessageDialog(null,"Please Insert Number in Salary","Inane warning",
+        } else if (!isNumeric(i4)) {
+            JOptionPane.showMessageDialog(null, "Please Insert Number in Salary", "Inane warning",
                     JOptionPane.WARNING_MESSAGE);
-        }else{
-        id[N] = i1;
-        name[N] = i2;
-        lname[N] = i4;
-        int number = Integer.parseInt(i4);
-        salary[N] = number;
-        N++;
-        jLabel5.setText("N=" + N);
+        } else {
+            id[N] = i1;
+            name[N] = i2;
+            lname[N] = i4;
+            int number = Integer.parseInt(i4);
+            salary[N] = number;
+            N++;
+            jLabel5.setText("N=" + N);
         }
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -465,14 +465,13 @@ public class Array extends javax.swing.JFrame {
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public static boolean isNumeric(String str)
-{
-  NumberFormat formatter = NumberFormat.getInstance();
-  ParsePosition pos = new ParsePosition(0);
-  formatter.parse(str, pos);
-  return str.length() == pos.getIndex();
-}
-    
+    public static boolean isNumeric(String str) {
+        NumberFormat formatter = NumberFormat.getInstance();
+        ParsePosition pos = new ParsePosition(0);
+        formatter.parse(str, pos);
+        return str.length() == pos.getIndex();
+    }
+
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         K = Integer.parseInt(jTextField5.getText());
         // ส่งตำแหน่งที่ต้องการแทรก
@@ -509,18 +508,15 @@ public class Array extends javax.swing.JFrame {
             jTextArea2.setText("");
             jTextArea2.setText("ไม่พบข้อมูลในตำแหน่งที่ค้นหา");
 
-        }
-        else
-        {
-        jTextArea2.setText("");
-        jTextArea2.setText(jTextArea2.getText() +"พบข้อมูลตำแหน่งที่ : " + result +"\n" 
+        } else {
+            jTextArea2.setText("");
+            jTextArea2.setText(jTextArea2.getText() + "พบข้อมูลตำแหน่งที่ : " + result + "\n"
                     + "รหัสพนักงาน : " + id[result] + "\n"
                     + "ชื่อ : " + name[result] + "\n"
                     + "นามสกุล : " + lname[result] + "\n"
                     + "เงินเดือน : " + salary[result] + "\n"
                     + "-------------------------" + "\n");
         }
-            
 
 
     }//GEN-LAST:event_jButton6ActionPerformed
