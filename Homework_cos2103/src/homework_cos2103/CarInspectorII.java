@@ -5,6 +5,7 @@
  */
 package homework_cos2103;
 
+import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,11 +21,12 @@ public class CarInspectorII extends javax.swing.JFrame {
     String Type[] = new String[size];
     String Brand[] = new String[size];
     String Color[] = new String[size];
-    int Weight[] = new int[size];
+    float Weight[] = new float[size];
 
     double[] Weight_Type = {500, 4000, 5000, 10000, 15000};
     double[] Weight_Brand = {100, 110, 130, 140, 150};
     double[] Weight_Standard = {1100, 1500, 2500, 3000, 4500};
+    double[] Weight_Random = {12.5, 11.0, 13.0, 14.5, 15.6};
 
     public boolean QINSERT(int item) {
         ITEM = item;
@@ -44,7 +46,7 @@ public class CarInspectorII extends javax.swing.JFrame {
         Type[REAR] = jComboBox1.getSelectedItem().toString();
         Brand[REAR] = jComboBox2.getSelectedItem().toString();
         Color[REAR] = jComboBox3.getSelectedItem().toString();
-        Weight[REAR] = Integer.parseInt(jTextField1.getText());
+        Weight[REAR] = Float.parseFloat(jTextField1.getText());
         JOptionPane.showMessageDialog(null, "เพิมข้อมูลสำเร็จ");
         return true;
     }
@@ -56,19 +58,19 @@ public class CarInspectorII extends javax.swing.JFrame {
         System.out.print("Data in Queue:");
         if (FRONT <= REAR) {
             for (int i = FRONT; i <= REAR; i++) {
-                System.out.print(QUEUE[i] + ",");
+                //System.out.print(QUEUE[i] + ",");
                 //jTable1.setToolTipText("");
                 model.addRow(new Object[]{QUEUE[i], Type[i], Brand[i], Color[i], Weight[i]});
                 //jTextArea1.setText(jTextArea1.getText()+"\n"+QUEUE[i]);
             }
         } else {
             for (int i = FRONT; i <= N; i++) {
-                System.out.print(QUEUE[i] + ",");
+                //System.out.print(QUEUE[i] + ",");
                 model.addRow(new Object[]{QUEUE[i], Type[i], Brand[i], Color[i], Weight[i]});
                 //jTextArea1.setText(jTextArea1.getText()+"\n"+QUEUE[i]);
             }
             for (int i = 0; i <= REAR; i++) {
-                System.out.print(QUEUE[i] + ",");
+                //System.out.print(QUEUE[i] + ",");
                 model.addRow(new Object[]{QUEUE[i], Type[i], Brand[i], Color[i], Weight[i]});
                 //jTextArea1.setText(jTextArea1.getText()+"\n"+QUEUE[i]);
             }
@@ -366,11 +368,12 @@ public class CarInspectorII extends javax.swing.JFrame {
 
         int selectedType = jComboBox1.getSelectedIndex();
         int selectedBrand = jComboBox2.getSelectedIndex();
-        //Integer.parseInt(jTextField1.getText())
-        int weight = (int) jTable1.getModel().getValueAt(0, 4);
+        
+        //int ran = jComboBox1.getSelectedIndex();
+        float weight = (float) jTable1.getModel().getValueAt(0, 4);
 
-        double totalWeight = (Weight_Type[selectedType] + Weight_Brand[selectedBrand] + weight) + (weight - (Weight_Type[selectedType] + Weight_Brand[selectedBrand] + weight));
-
+        //double totalWeight = (Weight_Type[selectedType] + Weight_Brand[selectedBrand]) + (weight - (Weight_Type[selectedType] + Weight_Brand[selectedBrand]));
+        double totalWeight = (Weight_Type[selectedType] + Weight_Brand[selectedBrand]) + (Math.round(weight));
         jLabel6.setText("ประเภทรถ : " + (String) jTable1.getModel().getValueAt(0, 1));
         jLabel7.setText("ยีห้อ : " + (String) jTable1.getModel().getValueAt(0, 2));
         jLabel8.setText("สี : " + (String) jTable1.getModel().getValueAt(0, 3));
