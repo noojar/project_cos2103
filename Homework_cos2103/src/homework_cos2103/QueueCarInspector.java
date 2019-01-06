@@ -311,20 +311,20 @@ public boolean QDELETE(){
            double nowweigth;
             switch(ITEM){
                 case 1:{
-                        baseweigth=5000f;
+                        baseweigth=5000;
                         nowweigth=baseweigth+(Math.random()*7000);
                         jTextArea1.setText("รถบรรทุก   "+" นำหนักปกติ:"+baseweigth+
                                 "น้ำหนักชั่งได้ปัจจุบัน="+nowweigth);
                         break;}
                 case 2:{
-                        baseweigth=3000f;
+                        baseweigth=3000;
                         nowweigth=baseweigth+(Math.random()*3000);
                         jTextArea1.setText("รถบรรทุก   "+" นำหนักปกติ:"+baseweigth+
                                 "น้ำหนักชั่งได้ปัจจุบัน="+nowweigth);
 
                          break;}
                 case 3:{
-                        baseweigth=4000f;
+                        baseweigth=4000;
                         nowweigth=baseweigth+(Math.random()*5000);
                         jTextArea1.setText("รถบรรทุก   "+" นำหนักปกติ:"+baseweigth+
                                 "น้ำหนักชั่งได้ปัจจุบัน="+nowweigth);

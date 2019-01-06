@@ -5,6 +5,7 @@
  */
 package homework_cos2103;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -12,8 +13,92 @@ import javax.swing.table.DefaultTableModel;
  * @author PC
  */
 public class CarInspectorII extends javax.swing.JFrame {
-     int size=10;  
-     int FRONT=-1,REAR=-1,ITEM,N=size-1,QUEUE[]=new int[size];
+
+    int size = 10;
+    int FRONT = -1, REAR = -1, ITEM, N = size - 1;
+    int QUEUE[] = new int[size];
+    String Type[] = new String[size];
+    String Brand[] = new String[size];
+    String Color[] = new String[size];
+    int Weight[] = new int[size];
+
+    double[] Weight_Type = {500, 4000, 5000, 10000, 15000};
+    double[] Weight_Brand = {100, 110, 130, 140, 150};
+    double[] Weight_Standard = {1100, 1500, 2500, 3000, 4500};
+
+    public boolean QINSERT(int item) {
+        ITEM = item;
+        if ((FRONT == 0 && REAR == N) || (FRONT == REAR + 1)) {
+            //System.out.println("OVERFLOW");
+            JOptionPane.showMessageDialog(null, "คิวเต็มแล้ว");
+            return false; //Can not insert
+        } else if (FRONT == -1) {   //NULL concept
+            FRONT = 0;
+            REAR = 0;
+        } else if (REAR == N) {
+            REAR = 0;
+        } else {
+            REAR++;
+        }
+        QUEUE[REAR] = ITEM;
+        Type[REAR] = jComboBox1.getSelectedItem().toString();
+        Brand[REAR] = jComboBox2.getSelectedItem().toString();
+        Color[REAR] = jComboBox3.getSelectedItem().toString();
+        Weight[REAR] = Integer.parseInt(jTextField1.getText());
+        JOptionPane.showMessageDialog(null, "เพิมข้อมูลสำเร็จ");
+        return true;
+    }
+
+    public void showDatainQueue() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        //jTable1.r
+        System.out.print("Data in Queue:");
+        if (FRONT <= REAR) {
+            for (int i = FRONT; i <= REAR; i++) {
+                System.out.print(QUEUE[i] + ",");
+                //jTable1.setToolTipText("");
+                model.addRow(new Object[]{QUEUE[i], Type[i], Brand[i], Color[i], Weight[i]});
+                //jTextArea1.setText(jTextArea1.getText()+"\n"+QUEUE[i]);
+            }
+        } else {
+            for (int i = FRONT; i <= N; i++) {
+                System.out.print(QUEUE[i] + ",");
+                model.addRow(new Object[]{QUEUE[i], Type[i], Brand[i], Color[i], Weight[i]});
+                //jTextArea1.setText(jTextArea1.getText()+"\n"+QUEUE[i]);
+            }
+            for (int i = 0; i <= REAR; i++) {
+                System.out.print(QUEUE[i] + ",");
+                model.addRow(new Object[]{QUEUE[i], Type[i], Brand[i], Color[i], Weight[i]});
+                //jTextArea1.setText(jTextArea1.getText()+"\n"+QUEUE[i]);
+            }
+        }
+        System.out.println();
+        System.out.println("FRONT:" + FRONT);
+        System.out.println("REAR:" + REAR);
+    }
+
+    public boolean QDELETE() {
+        if (FRONT == -1) {
+            //System.out.println("UNDERFLOW");
+            JOptionPane.showMessageDialog(null, "คิวว่าง");
+            return false;
+        }
+        ITEM = QUEUE[FRONT];
+
+        if (FRONT == REAR) {
+            FRONT = -1;
+            REAR = -1;
+        } else if (FRONT == N) {
+            FRONT = 0;
+        } else {
+            FRONT++;
+        }
+        //JOptionPane.showMessageDialog(null, "ลบข้อมูลสำเร็จ");
+        return true;
+
+    }
+
     public CarInspectorII() {
         initComponents();
     }
@@ -27,15 +112,6 @@ public class CarInspectorII extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -45,32 +121,23 @@ public class CarInspectorII extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("ประเภท");
-
-        jLabel2.setText("ยี่ห้อ");
-
-        jLabel3.setText("สี");
-
-        jLabel4.setText("น้ำหนักเบื้องต้น");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "รถบรรทุก", "รถยนต์นั่งส่วนบุคคล", "รถโดยสารประจำทางสี่ล้อ", "รถพ่วง" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TOYOTA", "HONDA", "NISSUN", "xxxxx" }));
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "แดง", "ดำ", "บรอนซ์ทอง", "เขียว" }));
-
-        jLabel5.setText("กิโลกรัม");
-
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton1.setText("เพิ่มเข้าคิว");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,140 +147,203 @@ public class CarInspectorII extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "คิวที่", "ประเภท", "ยี่ห้อ", "สี", "นำหนักเบื้องต้น"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+        }
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("ตาชั่ง"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ตาชั่ง", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jLabel6.setText("ประเภทรถ-------------");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setText("ประเภทรถ         :_________________");
+        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
-        jLabel7.setText("ยี่ห้อ---------------------");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setText("ยี่ห้อ                :_________________");
+        jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
-        jLabel8.setText("สี--------------");
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel8.setText("สี                    :_________________");
+        jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jLabel8.setIconTextGap(0);
 
-        jLabel9.setText("น้ำหนักพื้นฐาน------------------");
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel9.setText("น้ำหนักเบื้องต้น   :_________________");
+        jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
-        jLabel10.setText("น้ำหนัดที่ชั่งได้---------------");
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel11.setText("ผลการชั่งเกินหรือไม่");
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel10.setText("น้ำหนักที่ชั่งได้    :_________________");
+        jLabel10.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel8)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(50, 50, 50)
-                        .addComponent(jLabel11))
-                    .addComponent(jLabel6))
-                .addContainerGap(78, Short.MAX_VALUE))
+                    .addComponent(jLabel6)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel8)
+                        .addComponent(jLabel7))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel10)
+                        .addComponent(jLabel9)))
+                .addContainerGap(371, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel6)
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel11))
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton2.setText("นำรถขึ้นชั่ง");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ข้อมูลรถยนต์", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 16))); // NOI18N
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel12.setText("คิวที่");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setText("ประเภท");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "รถยนต์นั่งส่วนบุคคล", "รถบรรทุก  6 ล้อ", "รถบรรทุก 10 ล้อ", "รถบรรทุก 12 ล้อ", "รถบรรทุกพ่วง 18 ล้อ" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setText("ยี่ห้อ");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TOYOTA", "HONDA", "NISSUN", "xxxxx" }));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setText("สี");
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "แดง", "ดำ", "บรอนซ์ทอง", "เขียว" }));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setText("น้ำหนักเบื้องต้น");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel5.setText("กิโลกรัม");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel1))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField1)
+                            .addComponent(jComboBox3, 0, 138, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel5)))
+                .addGap(0, 30, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5))))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(30, 30, 30)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(62, 62, 62))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(129, 129, 129))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2)
+                            .addComponent(jButton1))))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
-                .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addGap(1, 1, 1)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(45, 45, 45))
         );
 
         pack();
@@ -224,12 +354,81 @@ public class CarInspectorII extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      DefaultTableModel model=(DefaultTableModel)jTable1.getModel();
-      model.addRow(new Object[]{jComboBox1.getSelectedItem(),jComboBox2.getSelectedItem(),jComboBox3.getSelectedItem(),jTextField1.getText()});
-              
-      
-       
+        //DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        //model.addRow(new Object[]{jTextField2.getText(), jComboBox1.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString(), jComboBox3.getSelectedItem().toString(), jTextField1.getText()});
+        int item = Integer.parseInt(jTextField2.getText());
+        QINSERT(item);
+        showDatainQueue();
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        int selectedType = jComboBox1.getSelectedIndex();
+        int selectedBrand = jComboBox2.getSelectedIndex();
+        //Integer.parseInt(jTextField1.getText())
+        int weight = (int) jTable1.getModel().getValueAt(0, 4);
+
+        double totalWeight = (Weight_Type[selectedType] + Weight_Brand[selectedBrand] + weight) + (weight - (Weight_Type[selectedType] + Weight_Brand[selectedBrand] + weight));
+
+        jLabel6.setText("ประเภทรถ : " + (String) jTable1.getModel().getValueAt(0, 1));
+        jLabel7.setText("ยีห้อ : " + (String) jTable1.getModel().getValueAt(0, 2));
+        jLabel8.setText("สี : " + (String) jTable1.getModel().getValueAt(0, 3));
+        jLabel9.setText("น้ำหนักพื้นฐาน : " + Weight_Standard[selectedType]);
+        jLabel10.setText("น้ำหนักที่ชั่งได้ : " + Double.toString(totalWeight));
+        switch (jComboBox1.getSelectedItem().toString()) {
+            case "รถยนต์นั่งส่วนบุคคล": {
+                if (jTable1.getModel().getValueAt(0, 1).toString().equals("รถยนต์นั่งส่วนบุคคล") && totalWeight > 1100) {
+                    JOptionPane.showMessageDialog(null, "น้ำหนักเกินเกณฑ์");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "ผ่าน");
+                }
+                break;
+            }
+            case "รถบรรทุก  6 ล้อ": {
+                if (jTable1.getModel().getValueAt(0, 1).toString().equals("รถบรรทุก  6 ล้อ") && totalWeight > 1500) {
+                    JOptionPane.showMessageDialog(null, "น้ำหนักเกินเกณฑ์");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "ผ่าน");
+                }
+                break;
+            }
+            case "รถบรรทุก  10 ล้อ": {
+                if (jTable1.getModel().getValueAt(0, 1).toString().equals("รถบรรทุก  10 ล้อ") && totalWeight > 2500) {
+                    JOptionPane.showMessageDialog(null, "น้ำหนักเกินเกณฑ์");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "ผ่าน");
+                }
+                break;
+            }
+            case "รถบรรทุก  12 ล้อ": {
+                if (jTable1.getModel().getValueAt(0, 1).toString().equals("รถบรรทุก  6 ล้อ") && totalWeight > 3000) {
+                    JOptionPane.showMessageDialog(null, "น้ำหนักเกินเกณฑ์");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "ผ่าน");
+                }
+                break;
+            }
+            case "รถบรรทุกพ่วง 18 ล้อ": {
+                if (jTable1.getModel().getValueAt(0, 1).toString().equals("รถบรรทุกพ่วง 18 ล้อ") && totalWeight > 4500) {
+                    JOptionPane.showMessageDialog(null, "น้ำหนักเกินเกณฑ์");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "ผ่าน");
+                }
+                break;
+            }
+        }
+
+        QDELETE();
+        showDatainQueue();
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -275,7 +474,7 @@ public class CarInspectorII extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -285,8 +484,10 @@ public class CarInspectorII extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
