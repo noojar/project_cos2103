@@ -77,7 +77,7 @@ public class Stack extends javax.swing.JFrame {
         //System.out.println();
         //System.out.print("Stack:");
         jTextArea1.setText("");
-        for (int i = TOP; i >= 0; i--) {
+        for (int i = 0; i <= TOP; i++) {
             //System.out.print(STACK[i] + ",");
             jTextArea1.setText(jTextArea1.getText() + "นำข้อมูลเข้า STACK สำเร็จ " + "\n"
                     + " ID        : " + id[i] + "\n"
@@ -285,6 +285,7 @@ public class Stack extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
     jTextArea2.setText("");
         for (int i = 0; i >= TOP; i++) {
+            
             //System.out.print(STACK[i] + ",");
             jTextArea2.setText(jTextArea2.getText() + "นำข้อมูลเข้า STACK สำเร็จ " + "\n"
                     + " ID        : " + id_p[i] + "\n"
