@@ -1,4 +1,0 @@
-homework_cos2103.QueueCarInspectorII$1
-homework_cos2103.QueueCarInspectorII$2
-homework_cos2103.QueueCarInspectorII$3
-homework_cos2103.QueueCarInspectorII

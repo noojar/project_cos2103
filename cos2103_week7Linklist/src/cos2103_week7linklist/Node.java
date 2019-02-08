@@ -11,6 +11,7 @@ package cos2103_week7linklist;
  */
 public class Node {
     Object INFOR;
+   
     Node LINK=null;    
 }
 

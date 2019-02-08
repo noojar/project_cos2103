@@ -1,0 +1,619 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package homework_cos2103;
+
+import com.placeholder.PlaceHolder;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
+import static javafx.beans.binding.Bindings.size;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Noojar
+ */
+public class LinkList extends javax.swing.JFrame {
+
+    int size = 10;
+    Node START;
+    Node cur;
+    Node LOCP = null;
+    Node LOC = null;
+    PlaceHolder holder;
+
+    public void INSTFIRST(String id, String fname, String lname, int salary) {
+        //Algorrithm 5.4 SEARCH  if AVAIL = NULL step. 1
+        Node NEW = new Node();   //step. 2
+        // int ITEM=item;
+        if (START == null) {
+            NEW.id = id;
+            NEW.fname = fname;
+            NEW.lname = lname;
+            NEW.salary = salary;            //เพิ่มเติมเข้ามา
+            START = NEW;
+            cur = NEW;                    //เพิ่มเติมเข้ามา
+            jTextArea1.setText("");
+            jTextArea1.setText(jTextArea1.getText() + "รหัสพนักงาน : " + cur.id + "\n"
+                    + "ชื่อ : " + cur.fname + "\n"
+                    + "นามสกุล : " + cur.lname + "\n"
+                    + "เงินเดือน : " + cur.salary + "\n"
+                    + "--------------------------------" + "\n");
+               
+        } else {
+            cur.LINK = NEW;
+            NEW.id = id;
+            NEW.fname = fname;
+            NEW.lname = lname;
+            NEW.salary = salary;
+            cur = NEW;
+            jTextArea1.setText("");
+            jTextArea1.setText(jTextArea1.getText() + "รหัสพนักงาน : " + cur.id + "\n"
+                    + "ชื่อ : " + cur.fname + "\n"
+                    + "นามสกุล : " + cur.lname + "\n"
+                    + "เงินเดือน : " + cur.salary + "\n"
+                    + "--------------------------------" + "\n");
+        }
+        // START = NEW;
+        //cur.LINK=START;
+    }
+
+    public Node SEARCH(String data) {
+        Node LOC = null;
+        Node PTR = null;
+        PTR = START;
+        while (PTR != null) {
+            if (data.equals(PTR.id)) {
+                //if (ITEM == (int) PTR.id) {
+                LOC = PTR;
+                break;
+            } else {
+                PTR = PTR.LINK;
+            }
+        }
+        //Show Result;
+        if (LOC == null) {
+            //System.out.println("Not found.");
+            jTextArea1.setText("Not found.");
+        } else {
+            //System.out.println("Found.");
+            jTextArea1.setText("");
+            jTextArea1.setText(jTextArea1.getText() + "รหัสพนักงาน : " + PTR.id + "\n"
+                    + "ชื่อ : " + PTR.fname + "\n"
+                    + "นามสกุล : " + PTR.lname + "\n"
+                    + "เงินเดือน : " + PTR.salary + "\n"
+                    + "--------------------------------" + "\n");
+        }
+
+        return LOC;
+    }
+
+    public void INSTLOC(String data, String id, String fname, String lname, int salary) {
+        //Algorrithm 5.5 SEARCH  if AVAIL = NULL step. 1
+
+        Node LOC = SEARCH(data); //ค้นหาข้อมูลที่จะแทรก        
+        Node NEW = new Node();   //step. 2
+        //int ITEM=item;
+        NEW.id = id;
+        NEW.fname = fname;
+        NEW.lname = lname;
+        NEW.salary = salary;
+        if (LOC == null) {
+            NEW.LINK = START;  //insert first Node
+            START = NEW;
+        } else {
+            NEW.LINK = LOC.LINK;
+            LOC.LINK = NEW;
+        }
+    }
+
+    public void DEL(String data) {
+        //Algorrithm 5.8 Delete 
+        FINDB(data);
+        if (LOC == null) {
+            System.out.println("ไม่มีข้อมูลที่จะลบจ้า....");
+        } else if (LOCP == null) {
+            START = START.LINK;  //insert first Node
+        } else {
+            LOCP.LINK = LOC.LINK;
+        }
+    }
+
+    public boolean FINDB(String data) {
+
+        Node PTR = null;
+        Node SAVE = null;
+        PTR = START;
+        if (START == null) {
+            LOC = null;
+            LOCP = null;
+            return true;
+        }
+        if (START.id.equals(data)) {
+            LOC = START;
+            LOCP = null;
+            return true;
+        }
+
+        SAVE = START;
+        PTR = START.LINK;
+        while (PTR != null) {
+            if (PTR.id.equals(data)) {
+                LOC = PTR;
+                LOCP = SAVE;
+                return true;
+            }
+            SAVE = PTR;
+            PTR = PTR.LINK;
+        }
+        LOC = null;
+        //Show Result;
+        if (LOC == null) {
+            System.out.println("Not found.");
+            return false;
+        } else {
+            System.out.println("Found.");
+            return true;
+        }
+    }
+
+    public void TraverseLink(Node START) {
+        Node PTR = null;
+        PTR = START;
+        jTextArea1.setText("");
+        while (PTR != null) {
+            //System.out.println(PTR.INFOR);  //Apply PROCESS to INFOR[PTR]
+            jTextArea1.setText(jTextArea1.getText() + "รหัสพนักงาน : " + PTR.id + "\n"
+                    + "ชื่อ : " + PTR.fname + "\n"
+                    + "นามสกุล : " + PTR.lname + "\n"
+                    + "เงินเดือน : " + PTR.salary + "\n"
+                    + "--------------------------------" + "\n");
+            PTR = PTR.LINK;
+        }
+    }
+
+
+    /* public int Search1(String item) {
+        String ITEM = item;
+
+        id[N] = ITEM;
+        int LOC = 0;
+        while (!id[LOC].equals(ITEM)) {
+            LOC++;
+        }
+        if (LOC == N) {
+            LOC = -1;
+            System.out.println("ไม่พบ");
+        } else {
+            System.out.println("พบที่ :" + LOC);
+        }
+        return LOC;
+
+    }
+    
+     */
+    public LinkList() {
+        initComponents();
+        this.holder = new PlaceHolder(jTextField1, "โปรดกรอกรหัสพนักงาน");
+        this.holder = new PlaceHolder(jTextField2, "โปรดกรอกชื่อ");
+        this.holder = new PlaceHolder(jTextField3, "โปรดกรอกนามสกุล");
+        this.holder = new PlaceHolder(jTextField4, "โปรดกรอกเงินเดือน");
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel5 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        jTextField7 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jTextField6 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jTextField5 = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(184, 233, 148));
+
+        jPanel5.setBackground(new java.awt.Color(96, 163, 188));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(209, 209, 209));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        jLabel1.setText("รหัสพนักงาน :");
+
+        jLabel2.setText("ชื่อ :");
+
+        jLabel3.setText("นามสกุล :");
+        jLabel3.setToolTipText("");
+
+        jLabel4.setText("เงินเดือน : ");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homework_cos2103/image/manager.png"))); // NOI18N
+        jLabel11.setText("ข้อมูลพนักงาน");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 27, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+
+        jPanel5.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 230, 220));
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homework_cos2103/image/research.png"))); // NOI18N
+        jButton6.setText("  ค้นหา");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 160, 90, -1));
+        jPanel5.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 160, 118, -1));
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homework_cos2103/Image/bag.png"))); // NOI18N
+        jButton4.setText("  ลบ");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 120, 90, -1));
+        jPanel5.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 120, 120, -1));
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homework_cos2103/image/home-icon-silhouette.png"))); // NOI18N
+        jButton2.setText("หน้าหลัก");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 460, 120, 34));
+
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 80, 120, -1));
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homework_cos2103/Image/insert.png"))); // NOI18N
+        jButton3.setText("  แทรก");
+        jButton3.setToolTipText("");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 80, 90, -1));
+
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        jLabel6.setText("แทรกหลังข้อมูล :");
+
+        jLabel7.setText("รหัสพนักงานที่ต้องการลบ :");
+
+        jLabel9.setText("รหัสพนักงาน : ");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel9)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel6)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel7)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 60, 390, 280));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homework_cos2103/Image/plus.png"))); // NOI18N
+        jButton1.setText("  เพิ่ม");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, -1, -1));
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homework_cos2103/Image/clipboard.png"))); // NOI18N
+        jButton5.setText("  แสดงข้อมูล");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 340, 130, 34));
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homework_cos2103/image/next.png"))); // NOI18N
+        jButton7.setText("Next");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 340, 80, 34));
+
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homework_cos2103/image/home-icon-silhouette.png"))); // NOI18N
+        jButton8.setText("Home");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 340, 90, 34));
+
+        jLabel10.setForeground(new java.awt.Color(212, 212, 212));
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homework_cos2103/image/Page3.jpg"))); // NOI18N
+        jLabel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "     Siggle Linklist", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18), new java.awt.Color(153, 153, 153))); // NOI18N
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 690, 510));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String id = jTextField1.getText();
+        String fname = jTextField2.getText();
+        String lname = jTextField3.getText();
+        int salary = Integer.parseInt(jTextField4.getText());
+        INSTFIRST(id, fname, lname, salary);
+        //TraverseLink(START);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new Home().setVisible(true);
+        this.dispose();
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public static boolean isNumeric(String str) {
+        NumberFormat formatter = NumberFormat.getInstance();
+        ParsePosition pos = new ParsePosition(0);
+        formatter.parse(str, pos);
+        return str.length() == pos.getIndex();
+    }
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String id = jTextField1.getText();
+        String fname = jTextField2.getText();
+        String lname = jTextField3.getText();
+        int salary = Integer.parseInt(jTextField4.getText());
+        String data = jTextField5.getText();
+        INSTLOC(data, id, fname, lname, salary);
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String data = jTextField6.getText();
+        DEL(data);
+        TraverseLink(START);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        String data = jTextField7.getText();
+        SEARCH(data);
+                   
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        TraverseLink(START);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        jTextArea1.setText("");
+        if (cur.LINK != null) {
+            cur = cur.LINK;
+            jTextArea1.setText(jTextArea1.getText() + "\n" + "รหัสพนักงาน : " + cur.id + "\n"
+                    + "ชื่อ : " + cur.fname + "\n"
+                    + "นามสกุล : " + cur.lname + "\n"
+                    + "เงินเดือน : " + cur.salary + "\n"
+                    + "--------------------------------");
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        jTextArea1.setText("");
+        cur = START;
+        jTextArea1.setText(jTextArea1.getText() + "\n" + "รหัสพนักงาน : " + cur.id + "\n"
+                + "ชื่อ : " + cur.fname + "\n"
+                + "นามสกุล : " + cur.lname + "\n"
+                + "เงินเดือน : " + cur.salary + "\n"
+                + "--------------------------------");
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(LinkList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(LinkList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(LinkList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(LinkList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new LinkList().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
+    // End of variables declaration//GEN-END:variables
+}

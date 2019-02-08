@@ -1,0 +1,34 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package JavaADT;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
+
+public class ListExample {
+
+    public static void main(String[] args) {
+
+        // List Example implement with ArrayList
+        List<String> ls=new ArrayList<String>();
+
+        ls.add("one");
+        ls.add("Three");
+        ls.add("two");
+        ls.add("four");
+
+        Iterator it=ls.iterator();
+
+        while(it.hasNext())
+        {
+          String value=(String)it.next();
+
+          System.out.println("Value :"+value);
+        }
+    }
+}
